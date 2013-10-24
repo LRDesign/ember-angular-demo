@@ -1,8 +1,6 @@
 App = Ember.Application.create();
 
-App.Ticket = Ember.Object.extend({
-  name: null,
-  priority: null,
+App.TicketController = Ember.ObjectController.extend({
 
   slug: function() {
     return this.get('name')
@@ -15,18 +13,21 @@ App.Ticket = Ember.Object.extend({
     shortName = this.get('name');
     return shortName.slice(0,3);
   }.property('name')
+
 });
 
 App.Router.map(function() {
   // put your routes here
   this.resource("tickets", function() {
-    this.route("edit", {path: "/:ticket_slug"});
+    //this.route("edit", {path: "/:ticket_slug"});
   });
 });
 
 App.TicketsRoute = Ember.Route.extend({
   model: function() {
-    return [];
+    return EmberFire.Array.create({
+      ref: new Firebase("https://ember-angular-demo.firebaseio.com/tickets")
+    });
   }
 });
 
@@ -39,22 +40,24 @@ App.TicketsIndexRoute = Ember.Route.extend({
 
 App.TicketsIndexController = Ember.ArrayController.extend({
 
+  itemController: 'ticket',
+
   actions: {
     addItem: function() {
       name = this.get("name")
       priority = this.get("priority")
-      ticket = App.Ticket.create({
+      ticket = {
         name: name,
         priority: priority
-      })
+      }
       this.pushObject(ticket);
     }
   }
 });
-
+/*
 App.TicketsEditRoute = Ember.Route.extend({
   model: function(params) {
-    this.modelFor('Tickets').find('slug', params.ticket_slug)
+    this.modelFor('tickets').find('slug', params.ticket_slug)
   },
 
   serialize: function(model) {
@@ -62,7 +65,7 @@ App.TicketsEditRoute = Ember.Route.extend({
     return { ticket_slug: model.get('slug') };
   }
 });
-
+*/
 App.IndexRoute = Ember.Route.extend({
   redirect: function() {
     this.transitionTo('tickets');

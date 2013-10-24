@@ -26,17 +26,19 @@
         <span class="abbreviation">[{{ticket.abbreviation}}]</span>
         <span class="name">{{ticket.name}}</span>
         <span class="priority">{{ticket.priority}}</span>
-        {{#link-to 'tickets.edit' ticket}}Edit{{/link-to}}</li>
+
+      </li>
     {{/each}}
     </ul>
     <p>Total Items: {{length}}
   </script>
 
+
   <script type="text/x-handlebars" data-template-name="tickets/edit">
     <p>Edit this ticket</p>
     <div id="name">Name: {{input value=name}}</div>
     <div id="name">Priority: {{input value=priority}}</div>
-    {{#link-to 'tickets'}}Return To List{{/link-to}}
+    //{{#link-to 'tickets'}}Return To List{{/link-to}}
   </script>
 
   <script src="js/libs/jquery-1.9.1.js"></script>
