@@ -1,0 +1,13 @@
+App should edit a list of Tasks.
+
+Tasks have two attributes:  Name and Priority
+And one computed attribute:  Abbreviation  (the first letter of each word)
+
+Main view is a list of tasks.  Has a filter box above that live filters the list by name.
+
+If possible (in this priority order):
+   1) delete items
+   2) auto-sync to a firebase backend
+   3) sort the items
+
+
