@@ -4,21 +4,30 @@
   <head>
     <script src='js/angular.js'></script>
     <script src='js/app.js'></script>
+    <link rel="stylesheet" href="../shared_css/normalize.css">
+    <link rel="stylesheet" href="../shared_css/style.css">
     <title>Ticket Tracker Demo in Angular</title>
   </head>
   <body>
-    <h1>Ticket Tracker Demo</h1>
-    <div ng-controller='TicketsController'>
-      <table>
-        <tr>
-          <th>Task</th>
-          <th>Priority</th>
-        </tr>
-        <tr ng-repeat="ticket in tickets">
-          <td>{{ticket.name}}</td>
-          <td>{{ticket.priority}}</td>
-        </tr>
-      </table>
+    <div id="wrap">
+      <h1>Ticket Tracker Demo: Angular</h1>
+      <div ng-controller='TicketsController'>
+        <table>
+          <tr>
+            <th>Task</th>
+            <th>Priority</th>
+            <th>Tools</th>
+          </tr>
+          <tr ng-repeat="ticket in tickets">
+            <td>{{ticket.name}}</td>
+            <td class="priority">{{ticket.priority}}</td>
+            <td></td>
+          </tr>
+          <tr class='total'>
+            <td colspan='3'>Total Items: {{total(tickets)}}</td>            
+          </tr>
+        </table>
+      </div>
     </div>
   </body>
 </html>

@@ -1,4 +1,27 @@
 /* Put your CSS here */
 html, body {
     margin: 20px;
+    background: #ccc;
 }
+
+#wrap {
+  width: 1024px;
+  margin: 0 auto;
+  background: white;
+  padding: 2em
+}
+
+table {
+  margin: 2em 0;
+}
+td, th  {
+  padding: 0.5em;
+  border: 1px solid #888;
+}
+td.priority {
+  text-align: center;
+}
+tr.total {
+  font-weight: bold;
+}
+

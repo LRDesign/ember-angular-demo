@@ -7,11 +7,12 @@
   <link rel="stylesheet" href="../shared_css/style.css">
 </head>
 <body>
-
-  <script type="text/x-handlebars">
-    <h1>Ticket Tracker Demo</h1>
-
-    {{outlet}}
+   
+  <script type="text/x-handlebars">    
+    <div id="wrap">    
+      <h1>Ticket Tracker Demo: Ember</h1>
+      {{outlet}}
+    </div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="tickets">
@@ -29,19 +30,21 @@
         <tr>
           <th>Task</th>
           <th>Priority</th>
+          <th>Tools</th>
         </tr>
         {{#each ticket in controller}}
           <tr>
             <td>
               [{{ticket.abbreviation}}] {{ticket.name}}
             </td>
-            <td>{{ticket.priority}}</td>
+            <td class='priority'>{{ticket.priority}}</td>
             <td>{{#link-to "tickets.edit" ticket}}Edit{{/link-to}}</td>
           </tr>
         {{/each}}
-        <tr>
-          <td>Total Items: </td>
-          <td>{{length}}</td>
+        <tr class='total'>
+          <td colspan='3'>Total Items: 
+            {{length}}
+          </td>
         </tr>
       </table>
     </div>

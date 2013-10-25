@@ -21,4 +21,7 @@ ticketApp.factory('TicketList', function(){
 
 function TicketsController($scope, TicketList) {
   $scope.tickets = TicketList.tickets;
+  $scope.total = function(list) {
+    return list.length;
+  }
 }
