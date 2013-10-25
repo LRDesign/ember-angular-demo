@@ -19,6 +19,26 @@ ticketApp.factory('TicketList', function(){
   return TicketList;
 })
 
+function TicketsController($scope, TicketList) {
+  $scope.tickets = TicketList.tickets;
+  $scope.total = function(list) {
+    return list.length;
+  }
+
+  $scope.abbreviation = function(ticket) {
+    return "["+ ticket.name.slice(0,3) + "]";
+  }
+
+  $scope.add = function() {
+    obj = {
+      name: $scope.new_name,
+      priority: $scope.new_priority
+    }
+    $scope.tickets.push(obj)
+  }
+
+}
+
 ticketApp.directive('total', function() {
   return function(scope, element) {
     element.html(
@@ -27,12 +47,4 @@ ticketApp.directive('total', function() {
   }
 })
 
-function TicketsController($scope, TicketList) {
-  $scope.tickets = TicketList.tickets;
-  $scope.total = function(list) {
-    return list.length;
-  }
-  $scope.abbreviation = function(ticket) {
-    return "["+ ticket.name.slice(0,3) + "]";
-  }
-}
+

@@ -12,6 +12,9 @@
     <div id="wrap">
       <h1>Ticket Tracker Demo: Angular</h1>
       <div ng-controller='TicketsController'>
+        <input ng-model='new_name' placeholder='Ticket Name'>
+        <input ng-model='new_priority' placeholder='Priority'>
+        <button type='submit' ng-click="add()">Add</button>
         <table>
           <tr>
             <th>Task</th>
