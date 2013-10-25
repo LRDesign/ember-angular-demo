@@ -24,4 +24,7 @@ function TicketsController($scope, TicketList) {
   $scope.total = function(list) {
     return list.length;
   }
+  $scope.abbreviation = function(ticket) {
+    return "["+ ticket.name.slice(0,3) + "]";
+  }
 }

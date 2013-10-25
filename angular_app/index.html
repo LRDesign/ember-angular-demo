@@ -19,7 +19,10 @@
             <th>Tools</th>
           </tr>
           <tr ng-repeat="ticket in tickets">
-            <td>{{ticket.name}}</td>
+            <td>
+              {{abbreviation(ticket)}}
+              {{ticket.name}}
+            </td>
             <td class="priority">{{ticket.priority}}</td>
             <td></td>
           </tr>
