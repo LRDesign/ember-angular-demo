@@ -9,28 +9,42 @@
 <body>
 
   <script type="text/x-handlebars">
-    <h2>My Awesome Ticket List</h2>
+    <h1>Ticket Tracker Demo</h1>
 
     {{outlet}}
   </script>
 
-  <script type="text/x-handlebars" data-template-name="tickets/index">
-    <form {{action "addItem" on="submit"}}>
-      {{input value=name}}
-      {{input value=priority}}
-      <button type=submit>Add</button>
-    </form>
-    <ul>
-    {{#each ticket in controller}}
-      <li>
-        <span class="abbreviation">[{{ticket.abbreviation}}]</span>
-        <span class="name">{{ticket.name}}</span>
-        <span class="priority">{{ticket.priority}}</span>
+  <script type="text/x-handlebars" data-template-name="tickets">
+    {{outlet}}
+  </script>
 
-      </li>
-    {{/each}}
-    </ul>
-    <p>Total Items: {{length}}
+  <script type="text/x-handlebars" data-template-name="tickets/index">
+    <div>
+      <form {{action "addItem" on="submit"}}>
+        {{input value=name}}
+        {{input value=priority}}
+        <button type=submit>Add</button>
+      </form>
+      <table>
+        <tr>
+          <th>Task</th>
+          <th>Priority</th>
+        </tr>
+        {{#each ticket in controller}}
+          <tr>
+            <td>
+              [{{ticket.abbreviation}}] {{ticket.name}}
+            </td>
+            <td>{{ticket.priority}}</td>
+            <td>{{#link-to "tickets.edit" ticket}}Edit{{/link-to}}</td>
+          </tr>
+        {{/each}}
+        <tr>
+          <td>Total Items: </td>
+          <td>{{length}}</td>
+        </tr>
+      </table>
+    </div>
   </script>
 
 
@@ -38,7 +52,7 @@
     <p>Edit this ticket</p>
     <div id="name">Name: {{input value=name}}</div>
     <div id="name">Priority: {{input value=priority}}</div>
-    //{{#link-to 'tickets'}}Return To List{{/link-to}}
+    {{#link-to 'tickets.index'}}Return To List{{/link-to}}
   </script>
 
   <script src="js/libs/jquery-1.9.1.js"></script>

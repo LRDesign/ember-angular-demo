@@ -19,7 +19,7 @@ App.TicketController = Ember.ObjectController.extend({
 App.Router.map(function() {
   // put your routes here
   this.resource("tickets", function() {
-    //this.route("edit", {path: "/:ticket_slug"});
+    this.route("edit", {path: "/:ticket_slug"});
   });
 });
 
@@ -46,26 +46,28 @@ App.TicketsIndexController = Ember.ArrayController.extend({
     addItem: function() {
       name = this.get("name")
       priority = this.get("priority")
+      slug = name.toLowerCase().replace(/ /g,'-').replace(/[^\w-]+/g,'');
       ticket = {
         name: name,
-        priority: priority
+        priority: priority,
+        slug: slug
       }
       this.pushObject(ticket);
     }
   }
 });
-/*
+
 App.TicketsEditRoute = Ember.Route.extend({
   model: function(params) {
-    this.modelFor('tickets').find('slug', params.ticket_slug)
+    return this.modelFor('tickets').find('slug', params.ticket_slug)
   },
 
   serialize: function(model) {
     // this will make the URL `/posts/foo-post`
-    return { ticket_slug: model.get('slug') };
+    return { ticket_slug: model.slug };
   }
 });
-*/
+
 App.IndexRoute = Ember.Route.extend({
   redirect: function() {
     this.transitionTo('tickets');
