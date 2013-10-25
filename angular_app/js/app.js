@@ -19,6 +19,14 @@ ticketApp.factory('TicketList', function(){
   return TicketList;
 })
 
+ticketApp.directive('total', function() {
+  return function(scope, element) {
+    element.html(
+      'Total Tickets:' + scope.tickets.length
+    );
+  }
+})
+
 function TicketsController($scope, TicketList) {
   $scope.tickets = TicketList.tickets;
   $scope.total = function(list) {
