@@ -17,13 +17,14 @@ ticketApp.factory('TicketList', function(){
   }
   ];
   return TicketList;
-})
+});
+
 
 function TicketsController($scope, TicketList) {
   $scope.tickets = TicketList.tickets;
-  $scope.total = function(list) {
+  $scope.total = $scope.$watch('list',function(list) {
     return list.length;
-  }
+  });
 
   $scope.abbreviation = function(ticket) {
     return "["+ ticket.name.slice(0,3) + "]";
