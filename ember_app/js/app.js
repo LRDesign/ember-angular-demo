@@ -1,9 +1,13 @@
 App = Ember.Application.create();
 
-App.Ticket = Ember.Object.extend({
+App.ApplicationAdapter = DS.RESTAdapter.extend({
+  host: 'http://localhost:3000'
+});
 
-  name: null,
-  priority: null,
+App.Todo = DS.Model.extend({
+
+  name: DS.attr(),
+  priority: DS.attr(),
 
   slug: function() {
     return this.get('name')
@@ -21,69 +25,57 @@ App.Ticket = Ember.Object.extend({
 
 App.Router.map(function() {
   // put your routes here
-  this.resource("tickets", function() {
-    this.route("edit", {path: "/:ticket_slug"});
+  this.resource("todos", function() {
+    this.route("edit", {path: "/:id"});
   });
 });
 
-App.TicketsRoute = Ember.Route.extend({
+App.TodosRoute = Ember.Route.extend({
   model: function() {
-    return [
-      App.Ticket.create({
-        name: "Write the presentation",
-        priority: 1,
-      }),
-      App.Ticket.create({
-        name: "Write the demo app",
-        priority: 2
-      }),
-      App.Ticket.create({
-        name: "Give the presentation",
-        priority: 2
-      }),
-      App.Ticket.create({
-        name: "Understand what I'm talking about",
-        priority: 5
-      })
-    ];
+    return this.store.find('todo');
   }
 });
 
-App.TicketsIndexRoute = Ember.Route.extend({
-  model: function() {
-    return this.modelFor('tickets');
-  }
-});
-
-
-App.TicketsIndexController = Ember.ArrayController.extend({
+App.TodosIndexController = Ember.ArrayController.extend({
 
   actions: {
     addItem: function() {
       name = this.get("name")
       priority = this.get("priority")
-      ticket =  App.Ticket.create({
+      todo =  this.store.createRecord('todo', {
         name: name,
         priority: priority
       });
-      this.pushObject(ticket);
+      todo.save();
     }
   }
 });
 
-App.TicketsEditRoute = Ember.Route.extend({
+App.TodosEditRoute = Ember.Route.extend({
   model: function(params) {
-    return this.modelFor('tickets').find('slug', params.ticket_slug)
+    return this.store.find('todo', params.id)
   },
 
   serialize: function(model) {
     // this will make the URL `/posts/foo-post`
-    return { ticket_slug: model.get('slug') };
+    return { id: model.get('id') };
+  }
+});
+
+App.TodosEditController = Ember.ObjectController.extend({
+
+  actions: {
+    updateItem: function(router, event) {
+      self = this;
+      this.get("model").save().then(function() {
+        self.transitionToRoute('todos');
+      });
+    }
   }
 });
 
 App.IndexRoute = Ember.Route.extend({
   redirect: function() {
-    this.transitionTo('tickets');
+    this.transitionTo('todos');
   }
 });
