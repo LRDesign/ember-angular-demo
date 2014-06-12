@@ -1,51 +1,73 @@
-var ticketApp = angular.module('ticketApp', []);
+var todoApp = angular.module('todoApp', ['ngResource']).config(
+    ['$httpProvider', function($httpProvider) {
+    var defaults = $httpProvider.defaults.headers;
+    defaults.patch = defaults.patch || {};
+    defaults.patch['Content-Type'] = 'application/json';
+    defaults.common['Accept'] = 'application/json';
+}]);
 
-ticketApp.factory('TicketList', function(){
-  var TicketList = {};
-  TicketList.tickets = [{
-    name: "Write the presentation",
-    priority: 1,
-  },
-  { name: "Write the demo app",
-    priority: 2
-  },
-  { name: "Give the presentation",
-    priority: 2
-  },
-  { name: "Understand what I'm talking about",
-    priority: 5
-  }
-  ];
-  return TicketList;
+todoApp.factory('TodoList', function($resource){
+
+  return $resource('http://localhost:3000/todos/:id',
+    {id: '@id'},
+    { get: {
+        method:'GET',
+        transformResponse: function(data) {
+          return JSON.parse(data).todo;
+        }
+      },
+      query: {
+        method:'GET',
+        isArray: true,
+        transformResponse: function(data) {
+          return JSON.parse(data).todos;
+        }
+      },
+      save: {
+        method: 'POST',
+        transformRequest: function(data) {
+          return JSON.stringify({'todo': data});
+        },
+        transformResponse: function (data) {
+          return JSON.parse(data).todo;
+        }
+      }
+    });
 });
 
+todoApp.controller('TodosController', function ($scope, TodoList) {
+  $scope.todos = [];
 
-function TicketsController($scope, TicketList) {
-  $scope.tickets = TicketList.tickets;
-  $scope.total = $scope.$watch('list',function(list) {
-    return list.length;
+  TodoList.query(function (todos) {
+    $scope.todos = todos;
   });
 
-  $scope.abbreviation = function(ticket) {
-    return "["+ ticket.name.slice(0,3) + "]";
+  $scope.total = $scope.todos.length;
+
+  $scope.$watchCollection('todos',function(todos, oldTodos) {
+    $scope.total = todos.length;
+  });
+
+  $scope.abbreviation = function(todo) {
+    return "["+ todo.name.slice(0,3) + "]";
   }
 
   $scope.add = function() {
-    obj = {
+    newTodo = new TodoList({
       name: $scope.new_name,
       priority: $scope.new_priority
-    }
-    $scope.tickets.push(obj)
+    });
+    newTodo.$save(function(todo) {
+      $scope.todos.push(todo)
+    });
   }
 
-}
+});
 
-ticketApp.directive('total', function() {
-  return function(scope, element) {
-    element.html(
-      'Total Tickets:' + scope.tickets.length
-    );
-  }
+todoApp.directive('total', function() {
+  return {
+    template: 'Total Todos: {{total}}'
+  };
 })
 
 
