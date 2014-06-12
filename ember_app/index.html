@@ -7,19 +7,19 @@
   <link rel="stylesheet" href="../shared_css/style.css">
 </head>
 <body>
-   
-  <script type="text/x-handlebars">    
-    <div id="wrap">    
-      <h1>Ticket Tracker Demo: Ember</h1>
+
+  <script type="text/x-handlebars">
+    <div id="wrap">
+      <h1>Todo Tracker Demo: Ember</h1>
       {{outlet}}
     </div>
   </script>
 
-  <script type="text/x-handlebars" data-template-name="tickets">
+  <script type="text/x-handlebars" data-template-name="todos">
     {{outlet}}
   </script>
 
-  <script type="text/x-handlebars" data-template-name="tickets/index">
+  <script type="text/x-handlebars" data-template-name="todos/index">
     <div>
       <form {{action "addItem" on="submit"}}>
         {{input value=name}}
@@ -32,17 +32,17 @@
           <th>Priority</th>
           <th>Tools</th>
         </tr>
-        {{#each ticket in controller}}
+        {{#each todo in controller}}
           <tr>
             <td>
-              [{{ticket.abbreviation}}] {{ticket.name}}
+              [{{todo.abbreviation}}] {{todo.name}}
             </td>
-            <td class='priority'>{{ticket.priority}}</td>
-            <td>{{#link-to "tickets.edit" ticket}}Edit{{/link-to}}</td>
+            <td class='priority'>{{todo.priority}}</td>
+            <td>{{#link-to "todos.edit" todo}}Edit{{/link-to}}</td>
           </tr>
         {{/each}}
         <tr class='total'>
-          <td colspan='3'>Total Items: 
+          <td colspan='3'>Total Items:
             {{length}}
           </td>
         </tr>
@@ -51,16 +51,19 @@
   </script>
 
 
-  <script type="text/x-handlebars" data-template-name="tickets/edit">
-    <p>Edit this ticket</p>
-    <div id="name">Name: {{input value=name}}</div>
-    <div id="name">Priority: {{input value=priority}}</div>
-    {{#link-to 'tickets.index'}}Return To List{{/link-to}}
+  <script type="text/x-handlebars" data-template-name="todos/edit">
+    <p>Edit this todo</p>
+    <form {{action "updateItem" on="submit"}}>
+      <div id="name">Name: {{input value=name}}</div>
+      <div id="name">Priority: {{input value=priority}}</div>
+      <button type=submit>Add</button>
+    </form>
   </script>
 
-  <script src="js/libs/jquery-1.9.1.js"></script>
-  <script src="js/libs/handlebars-1.0.0.js"></script>
-  <script src="js/libs/ember-1.1.1.js"></script>
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/handlebars-1.1.2.js"></script>
+  <script src="js/libs/ember-1.5.1.js"></script>
+  <script src="js/libs/ember-data.js"></script>
 
   <script src="js/app.js"></script>
 
